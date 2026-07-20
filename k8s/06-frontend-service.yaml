@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: portfolio
+spec:
+  # On a cloud cluster (EKS/AKS/GKE) this provisions a real external IP.
+  # On minikube, use `minikube service frontend-service -n portfolio` instead,
+  # or change this to NodePort.
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80

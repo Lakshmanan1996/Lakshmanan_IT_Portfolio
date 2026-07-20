@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  backend-service:
+    build: ./backend
+    container_name: portfolio-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  frontend-service:
+    build: ./frontend
+    container_name: portfolio-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend-service
+    restart: unless-stopped
