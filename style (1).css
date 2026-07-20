@@ -1,0 +1,985 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+/* === SCROLLING EFFECT (AOS) SETUP === */
+/* Ensure the elements start hidden before AOS takes over */
+[data-aos] {
+    opacity: 0;
+    /* Important flag ensures AOS transition overrides any conflicting default transitions */
+    transition-property: opacity, transform !important;
+}
+
+/* --- 1. GLOBAL RESET & VARIABLES --- */
+:root {
+    --main-color: #00bcd4; /* Cyan/Teal (Primary Accent) */
+    --secondary-color: #ff4081; /* Pink/Red (Secondary Accent/Hover) */
+    --dark-bg: #1d3557; /* Dark Blue (Header/Home/General Dark Background) */
+    --custom-dark-blue: #192D57; /* Color used for Experience */
+    --infra-bg: #1C4E80; /* Thick Royal Blue for Projects */
+    --white: #fff;
+    --light-gray: #f5f5f5; /* Light gray page background */
+    --text-dark: #333;
+
+    /* --- NEW CONTACT FORM VARIABLES --- */
+    --page-bg-new: #f0f2f7; /* Very light lavender/gray for the new contact section background */
+    --new-purple-btn: #5d3fd3; /* Vibrant Purple for the new contact button/title */
+    --input-bg-new: #f7f9fc; /* Very light gray background for inputs */
+    --input-border-new: #e0e4eb; /* Subtle border for inputs */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--light-gray);
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+.section {
+    padding: 6rem 5%;
+    min-height: 50vh;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--dark-bg);
+    margin-bottom: 1rem;
+    padding-top: 5rem;
+}
+.section-title i {
+    color: var(--main-color);
+}
+.subtitle {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+
+/* --- 2. HEADER/NAVBAR --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 5%;
+    background: rgba(29, 53, 87, 0.95);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+header .logo {
+    color: var(--main-color);
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+}
+
+header .navbar {
+    transition: max-height 0.3s ease-in-out;    
+}
+
+header .navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+header .navbar ul li a {
+    color: var(--white);
+    font-size: 1.7rem;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s;
+}
+
+header .navbar ul li a:hover,
+header .navbar ul li a.active {
+    color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+}
+#menu-btn {
+    color: var(--white);
+    font-size: 2.5rem;
+    cursor: pointer;
+    display: none;    
+}
+
+
+/* --- 3. HOME SECTION --- */
+.home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
+    background: var(--dark-bg); /* Kept as fallback/overlay color */
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    overflow: hidden; /* Crucial to prevent video overflow from affecting scrollbars */
+} 
+
+/* NEW: Background Video Styles */
+.home-video-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Centers the video */
+    transform: translateX(-50%) translateY(-50%); 
+    
+    /* Ensures the video always covers the entire area */
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    
+    /* Place it behind particles-js and content */
+    z-index: -2; 
+    
+    /* Applies a dark, semi-transparent overlay to ensure text is readable */
+    opacity: 0.9; 
+    filter: brightness(0.7);
+}
+/* END: Background Video Styles */
+
+.home .content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1100px;
+    padding-top: 8rem;
+    position: relative; /* Ensure content stacks above the video */
+    z-index: 2; /* Ensures content is on top of the video (z-index: -2) */
+}
+
+.home .content {
+    flex: 1 1 50%;
+    text-align: left;
+}
+
+.home .content h1 {
+    font-size: 4rem;
+    margin: 0.5rem 0;
+    color: var(--main-color);
+}
+
+.home .content .role-title {
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.home .content .role-subtitle {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+    min-height: 35px; /* Ensures space is reserved for typing text */
+}
+
+.home .image-box {
+    flex: 1 1 40%;
+    text-align: center;
+}
+
+.home .image-box .profile-image {
+    width: 550px; /* Adjusted size for better fit */
+    height: 550px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.home .image-box .profile-image:hover {
+    transform: scale(1.05);
+}
+
+.home .socials {
+    margin-top: 2rem;
+}
+
+.home .socials a {
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    font-size: 1.8rem;
+    color: var(--white);
+    background: var(--main-color);
+    border-radius: 50%;
+    margin-right: 1rem;
+    text-align: center;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.home .socials a:hover {
+    background: var(--secondary-color);
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating-image {
+    animation: float 4s ease-in-out infinite;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--main-color);
+    color: var(--dark-bg);
+    border-radius: 5px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background: var(--secondary-color);
+    color: var(--white);
+}
+
+/* --- 4. ABOUT SECTION --- */
+
+#about {
+    /* Explicitly setting background to snow white (#FFFAFA) to prevent conflicts */
+    background-color: #FFFAFA;
+}
+    
+.about-container {
+    max-width: 1100px; /* Increased max-width and set to Flexbox */
+    margin: 0 auto;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem; /* Spacing between image and text */
+    padding: 2rem 0;
+    text-align: left; /* Text alignment removed from container */
+}
+
+/* NEW: Image container styling */
+.about-image-box {
+    flex: 0 0 350px; /* Fixed width for image container */
+    max-width: 350px;
+    text-align: center;
+}
+
+/* NEW: Image styling */
+.about-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* NEW: Text content styling */
+.about-content-text {
+    flex: 1; /* Text takes up remaining space */
+    max-width: 700px;    
+}
+
+/* STYLES FOR LIST (UL/LI) TO ENSURE SEPARATE LINES */
+.about-content-text ul {
+    list-style: none; /* Remove default list style */
+    padding-left: 0;
+}
+
+.about-content-text li {
+    font-size: 1.7rem;    
+    margin-bottom: 3.5rem; /* Increased spacing for clear separation */
+    position: relative;
+    padding-left: 30px; /* Space for the custom icon */
+    line-height: 1.6;
+}
+
+/* Custom bullet/checkmark using the main accent color */
+.about-content-text li::before {
+    /* Using a FontAwesome icon for a clean look */
+    content: "\f058"; /* Unicode for fa-check-circle */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;    
+    color: var(--main-color);    
+    position: absolute;
+    left: 0;
+    font-size: 2rem;
+    top: 0;
+}
+
+
+/* --- 5. SKILLS SECTION --- */
+.skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.skill-card {
+    background: var(--dark-bg);
+    color: var(--white);
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, background 0.3s;
+    cursor: pointer;
+}
+
+.skill-card:hover {
+    transform: translateY(-8px);
+    background: var(--secondary-color);
+}
+
+.skill-card i {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--main-color);
+    transition: color 0.3s;
+}
+
+.skill-card:hover i {
+    color: var(--white);
+}
+
+.skill-card h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.skill-card p {
+    font-size: 1.4rem;
+    opacity: 0.8;
+}
+
+/* --- 6. EXPERIENCE & EDUCATION (Timeline) --- */
+
+.section.experience {
+    background-color: var(--custom-dark-blue);
+    color: var(--white) !important;
+}
+
+.section.experience .section-title {
+    color: var(--main-color) !important;
+    padding-top: 0;
+}
+
+.section#education {
+    background-color: var(--light-gray);
+    color: var(--text-dark) !important;
+}
+
+.section#education .section-title {
+    color: var(--dark-bg) !important;
+    padding-top: 0;
+}
+
+.timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    position: relative;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: var(--main-color);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    position: relative;
+    width: 45%;
+}
+
+.timeline .timeline-item h3,
+.timeline .timeline-item h4,
+.timeline .timeline-item li,
+.timeline .timeline-item p {
+    color: var(--text-dark) !important;
+    font-size: 1.6rem;
+}
+
+.timeline .timeline-item ul {
+    padding-left: 2rem;
+}
+
+.timeline .timeline-item h3 {
+    font-size: 2rem;
+    color: var(--dark-bg) !important;
+}
+
+.timeline .timeline-item h4 {
+    font-size: 1.6rem;
+    color: var(--main-color) !important;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+
+.section.experience .timeline-item::after {
+    border: 3px solid var(--custom-dark-blue);
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    top: 2.5rem;
+    z-index: 10;
+}
+
+.section#education .timeline-item::after {
+    border: 3px solid var(--light-gray);
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    top: 2.5rem;
+    z-index: 10;
+}
+
+.timeline-item:nth-child(odd) {
+    left: 0;
+    transform: translateX(-5%);
+}
+
+.timeline-item:nth-child(even) {
+    left: 55%;
+    transform: translateX(5%);
+}
+
+.timeline-item:nth-child(odd)::after {
+    right: -25px;
+    transform: translateX(50%);
+}
+
+.timeline-item:nth-child(even)::after {
+    left: -25px;
+    transform: translateX(-50%);
+}
+
+
+/* --- 7. INFRASTRUCTURE PROJECTS SECTION (Grid) --- */
+
+.section#projects {
+    background-color: var(--infra-bg);
+    color: var(--white);    
+}
+
+.section#projects .section-title,
+.section#projects .section-title i {
+    color: var(--main-color);    
+}
+
+.section#projects .subtitle {
+    color: rgba(255, 255, 255, 0.7);    
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-card {
+    background: var(--white);
+    border: 1px solid #e9e9e9;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 188, 212, 0.4);
+    border-color: var(--main-color);
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.project-header i {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-right: 1rem;
+}
+
+.project-card h3 {
+    color: var(--dark-bg);
+    font-size: 1.8rem;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.project-card p {
+    font-size: 1.4rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.tech-stack {
+    margin-bottom: 2rem;
+}
+.tech-stack span {
+    font-size: 1.2rem;
+    background-color: var(--dark-bg);
+    color: var(--white);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.view-repo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.view-repo-btn:hover {
+    background-color: #e6004c;
+}
+
+.view-repo-btn i {
+    margin-left: 0.8rem;
+    font-size: 1.8rem;
+    color: var(--white);
+}
+
+/* --- 8. CONTACT SECTION ALIGNMENT & DESIGN --- */
+
+#contact {
+    background: var(--page-bg-new);
+    color: var(--text-dark);    
+    padding: 6rem 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;    
+}
+
+.section#contact .section-title {
+    color: var(--new-purple-btn);
+    padding-top: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+}
+.section#contact .section-title .icon-headset {
+    color: var(--new-purple-btn);
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+.section#contact .subtitle {
+    color: #666;
+    margin-bottom: 4rem;
+    font-size: 1.6rem;
+}
+
+.contact-layout-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    max-width: 1000px;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.contact-card-new {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 450px;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.input-group-new {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: var(--input-bg-new);
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 1px solid var(--input-border-new);
+    transition: all 0.2s ease-in-out;
+}
+
+.input-group-new:focus-within {
+    border-color: var(--new-purple-btn);
+    box-shadow: 0 0 0 3px rgba(93, 63, 211, 0.2);
+}
+
+.input-group-new input,
+.input-group-new textarea {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px 0;
+    font-size: 1.6rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.input-group-new textarea {
+    resize: vertical;
+    min-height: 100px;
+    padding: 5px 0 0 0;
+}
+
+.input-icon-new {
+    font-size: 1.8rem;
+    margin-right: 15px;
+    color: #999;
+}
+
+.message-group-new .message-icon-new {
+    align-self: flex-start;
+    margin-top: 5px;
+}
+
+.contact-image-wrapper {
+    flex: 1 1 450px;
+    max-width: 450px;
+    text-align: center;
+    padding: 20px;
+}
+
+.contact-illustration {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+}
+
+.submit-button-new {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--new-purple-btn);
+    color: var(--white);
+    font-size: 1.8rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 5px 15px rgba(93, 63, 211, 0.4);
+}
+
+.submit-button-new:hover {
+    background-color: #4a33a3;
+}
+
+.submit-button-new:active {
+    transform: scale(0.99);
+}
+
+.submit-button-new .icon-send {
+    margin-left: 8px;
+}
+
+/* --- 9. FOOTER STYLES & SCROLL TOP --- */
+.footer {
+    background: #102C57;
+    padding: 3rem 5%;
+    color: var(--white);
+}
+
+.footer .box-container {
+    display: grid;
+    /* Updated minmax for the 3-column layout */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));    
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer .box-container .box h3 {
+    font-size: 2.2rem;
+    color: var(--main-color);
+    margin-bottom: 1.5rem;
+}
+
+.footer .box-container .box p {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin: 1rem 0;
+}
+
+.footer .box-container .box p i {
+    color: var(--secondary-color);
+    margin-right: 1rem;
+}
+
+/* NEW FOOTER LINK STYLES for Certifications/Quick Links */
+.footer .box-container .box ul {
+    list-style: none;    
+    padding-left: 0;
+}
+
+.footer .box-container .box ul li {
+    margin: 1rem 0;
+}
+
+.footer .box-container .box ul li a {
+    color: var(--white);
+    font-size: 1.5rem;
+    transition: color 0.3s;
+    display: flex;    
+    align-items: center;
+}
+
+.footer .box-container .box ul li a:hover {
+    color: var(--secondary-color);
+}
+
+.footer .box-container .box ul li a i {
+    color: var(--main-color);
+    margin-right: 1rem;
+    font-size: 1.6rem; /* Slightly larger icon for certificate */
+    transition: margin-right 0.3s;
+}
+
+.footer .box-container .box ul li a:hover i {
+    color: var(--secondary-color);
+    margin-right: 1.5rem;    
+}
+/* End of new link styles */
+
+.footer .box-container .box .share {
+    margin-top: 1.5rem;
+}
+
+.footer .box-container .box .share a {
+    height: 4rem;
+    width: 4rem;
+    line-height: 4rem;
+    font-size: 1.8rem;
+    color: var(--white);
+    background: var(--main-color);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.footer .box-container .box .share a:hover {
+    background: var(--secondary-color);
+}
+
+.footer .credit {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 400;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer .credit i {
+    margin: 0 0.5rem;
+}
+
+/* Scroll Top Button */
+#scroll-top {
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    height: 4.5rem;
+    width: 4.5rem;
+    background: var(--main-color);
+    color: var(--white);
+    border-radius: 50%;
+    line-height: 4.5rem;
+    text-align: center;
+    font-size: 2rem;
+    z-index: 1000;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+#scroll-top.active {
+    opacity: 1;
+}
+
+/* --- 10. MOBILE RESPONSIVENESS --- */
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+    header {
+        padding: 1rem 3%;
+    }
+
+    /* About Section Mobile Fix */
+    .about-container {
+        flex-direction: column; /* Stack vertically on smaller screens */
+        text-align: center;
+    }
+    .about-image-box {
+        order: -1; /* Image appears above text on mobile */
+        margin-bottom: 3rem;
+        max-width: 80%;
+        flex: none;
+    }
+    .about-content-text {
+        text-align: left; /* Keep list items left-aligned */
+        max-width: 100%;
+    }
+    .about-content-text li {
+        margin-bottom: 2rem; /* Reduced spacing slightly for mobile */
+    }
+    /* End About Section Mobile Fix */
+
+    .timeline::before {
+        left: 20px;
+    }
+    .timeline-item {
+        width: 90%;    
+        left: 0 !important;
+        transform: none !important;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+    .timeline-item:nth-child(odd)::after,
+    .timeline-item:nth-child(even)::after {
+        left: 20px !important;
+        transform: translateX(-50%) !important;
+    }
+
+    #menu-btn {
+        display: inline-block;
+        order: 2;    
+    }
+
+    header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--dark-bg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        max-height: 0;    
+        overflow: hidden;
+        width: 100%;    
+        display: block;
+    }
+    
+    header .navbar.nav-toggle {
+        max-height: 50vh;
+    }
+    
+    header .navbar ul {
+        flex-direction: column;    
+        padding: 1rem 2rem;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .home .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 10rem;
+    }
+
+    .home .image-box {
+        order: -1;
+        margin-bottom: 3rem;
+    }
+
+    .home .image-box .profile-image {
+        width: 300px;
+        height: 300px;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-layout-wrapper {
+        flex-direction: column;
+        gap: 3rem;
+    }
+    
+    .contact-card-new {
+        width: 90%;    
+    }
+
+    .contact-image-wrapper {
+        max-width: 300px;
+        order: 2;
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+    .section {
+        padding: 6rem 3%;
+    }
+    .contact-card-new {
+        padding: 30px 20px;
+    }
+}
